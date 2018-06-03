@@ -639,7 +639,7 @@ DEF_PRIMITIVE(num_dotDot)
 
   double from = AS_NUM(args[0]);
   double to = AS_NUM(args[1]);
-  RETURN_VAL(wrenNewRange(vm, from, to, true));
+  RETURN_VAL(wrenNewRange(vm, from, to, to > from, true));
 }
 
 DEF_PRIMITIVE(num_dotDotDot)
@@ -648,7 +648,7 @@ DEF_PRIMITIVE(num_dotDotDot)
 
   double from = AS_NUM(args[0]);
   double to = AS_NUM(args[1]);
-  RETURN_VAL(wrenNewRange(vm, from, to, false));
+  RETURN_VAL(wrenNewRange(vm, from, to, to > from, false));
 }
 
 DEF_PRIMITIVE(num_atan2)
@@ -797,6 +797,11 @@ DEF_PRIMITIVE(range_max)
 {
   ObjRange* range = AS_RANGE(args[0]);
   RETURN_NUM(fmax(range->from, range->to));
+}
+
+DEF_PRIMITIVE(range_isAscending)
+{
+  RETURN_BOOL(AS_RANGE(args[0])->isAscending);
 }
 
 DEF_PRIMITIVE(range_isInclusive)
@@ -1325,6 +1330,7 @@ void wrenInitializeCore(WrenVM* vm)
   PRIMITIVE(vm->rangeClass, "iterate(_)", range_iterate);
   PRIMITIVE(vm->rangeClass, "iteratorValue(_)", range_iteratorValue);
   PRIMITIVE(vm->rangeClass, "toString", range_toString);
+  PRIMITIVE(vm->rangeClass, "isAscending", range_isAscending);
 
   ObjClass* systemClass = AS_CLASS(wrenFindVariable(vm, coreModule, "System"));
   PRIMITIVE(systemClass->obj.classObj, "clock", system_clock);

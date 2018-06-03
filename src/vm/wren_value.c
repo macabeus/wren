@@ -655,12 +655,13 @@ ObjModule* wrenNewModule(WrenVM* vm, ObjString* name)
   return module;
 }
 
-Value wrenNewRange(WrenVM* vm, double from, double to, bool isInclusive)
+Value wrenNewRange(WrenVM* vm, double from, double to, bool isAscending, bool isInclusive)
 {
   ObjRange* range = ALLOCATE(vm, ObjRange);
   initObj(vm, &range->obj, OBJ_RANGE, vm->rangeClass);
   range->from = from;
   range->to = to;
+  range->isAscending = isAscending;
   range->isInclusive = isInclusive;
 
   return OBJ_VAL(range);

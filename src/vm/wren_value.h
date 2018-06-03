@@ -469,6 +469,9 @@ typedef struct
   // The end of the range. May be greater or less than [from].
   double to;
 
+  // True if [to] > [from]
+  bool isAscending;
+
   // True if [to] is included in the range.
   bool isInclusive;
 } ObjRange;
@@ -688,7 +691,7 @@ Value wrenMapRemoveKey(WrenVM* vm, ObjMap* map, Value key);
 ObjModule* wrenNewModule(WrenVM* vm, ObjString* name);
 
 // Creates a new range from [from] to [to].
-Value wrenNewRange(WrenVM* vm, double from, double to, bool isInclusive);
+Value wrenNewRange(WrenVM* vm, double from, double to, bool isAscending, bool isInclusive);
 
 // Creates a new string object and copies [text] into it.
 //
